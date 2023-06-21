@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% csrf_token %} 
+{% block content %}
+<dl class="details">
+    {% for event in event_set %}
+        <h2>Hello</h2>
+        <h2>{{event}}</h2>
+      <div>
+        <dt>{{ event.event_name }}</dt>
+        <dd>{{ event.event_descp }}</dd>
+      </div>
+  {% endfor %}
+  </dl>
+{% endblock %}

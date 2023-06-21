@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% csrf_token %} 
+{% block content %}
+
+{% for field, errors in error %}
+    {% for i in errors %}
+      <li>{{ field }}: {{ i }}</li>
+    {% endfor %}
+  {% endfor %}
+{% endblock %}

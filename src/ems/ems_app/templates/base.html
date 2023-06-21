@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <title>Document</title>
+</head>
+<body>
+	<div class="sidebar">
+		<div class="top">
+			<div class="logo">
+				<i class = "bx bxl-codepen bx-sm"></i>
+				<span>EventNexus</span>
+			</div>
+			<i class = "bx bx-menu bx-sm" id = "btn"></i>
+		</div>
+
+		{% if user.is_authenticated %}
+			<div class="user">
+				<img src = "{% static 'img/me.png' %}" alt="pp" class = "pp" />
+				<div>
+					<p class = "bold">{{ user.username }}</p>
+					{% if user.is_superuser %}
+						<p>Admin</p>
+					{% else %}
+						<p>User</p>
+					{% endif %}
+				</div>
+			</div>
+		{% endif %}
+		<ul>
+			<li>
+				<a href = "/">
+					<i class='bx bxs-home-alt-2 bx-sm'></i>
+					<span class = "nav-item">Home</span>
+				</a>
+				<span class ="tooltip">Home</span>
+			</li>
+			<li>
+				<a href = "{% url 'event' %}">
+					<i class='bx bxs-party'></i>
+					<span class = "nav-item">Event</span>
+				</a>
+				<span class ="tooltip">Event</span>
+			</li>
+			{% if user.is_authenticated %}
+				<li>
+					<a href = "{% url 'logout' %}">
+						<i class='bx bx-log-in bx-sm' ></i>
+						<span class = "nav-item">Logout</span>
+					</a>
+					<span class ="tooltip">Logout</span>
+				</li>
+				<li>
+					<a href = "{% url 'dashboard' %}">
+						<i class='bx bxs-dashboard bx-sm'></i>
+						<span class = "nav-item">Dashboard</span>
+					</a>
+					<span class ="tooltip">Dashboard</span>
+				</li>
+			{% else %}
+				<li>
+					<a href = "{% url 'register' %}">
+						<i class='bx bxs-edit bx-sm' ></i>
+						<span class = "nav-item">Register</span>
+					</a>
+					<span class ="tooltip">Register</span>
+				</li>
+				<li>
+					<a href = "{% url 'login' %}">
+						<i class='bx bx-log-in bx-sm' ></i>
+						<span class = "nav-item">Login</span>
+					</a>
+					<span class ="tooltip">Login</span>
+				</li>
+			{% endif %}
+		</ul>
+	</div>
+	<div class="main-content">
+		<div class="container">
+			<h1>Event Nexus</h1>
+			<h1>Content</h1>
+			<main>{% block content %} {% endblock %}</main>
+		</div>
+	</div>
+</body>
+<script>
+	let btn = document.querySelector('#btn')
+	let sidebar = document.querySelector('.sidebar')
+	btn.onclick = function(){
+		sidebar.classList.toggle('active')
+	}
+</script>
+</html>
