@@ -9,4 +9,6 @@ urlpatterns = [
     path('event/', views.get_event, name='event'),
     path('add_event/', views.post_event, name='add_event'),
     path('details/<int:id>', views.details, name='details'),
+    path('add_dashboard/<str:name>/<int:id>',
+         views.add_dashboard, name='add_dashboard'),
 ]

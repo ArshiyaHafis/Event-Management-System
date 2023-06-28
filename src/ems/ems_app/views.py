@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .models import Event
+from django.shortcuts import render, get_object_or_404
+from .models import Event, UserEvent
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from .forms import RegForm, LoginForm, EventForm
 from django.contrib.auth.views import LoginView
@@ -50,7 +50,13 @@ def logout(request):
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    user_events = UserEvent.objects.filter(user=request.user)
+
+    context = {
+        'user_events': user_events,
+    }
+
+    return render(request, 'dashboard.html', context)
 
 
 def post_event(request):
@@ -83,3 +89,21 @@ def details(request, id):
     event_set = Event.objects.filter(id=id)
     context = {'event_set': event_set}
     return render(request, 'details.html', context)
+
+
+def add_dashboard(request, name, id):
+    event = get_object_or_404(Event, id=id, event_name=name)
+    if UserEvent.objects.filter(user=request.user, event=event).exists():
+        # Event already exists in the user's dashboard, handle the case as desired
+        return render(request, 'details.html', {'event_exists': True})
+    user_event = UserEvent(user=request.user, event=event)
+    user_event.save()
+
+    # Fetch the updated events for the dashboard
+    user_events = UserEvent.objects.filter(user=request.user)
+
+    context = {
+        'user_events': user_events,
+    }
+
+    return render(request, 'dashboard.html', context)

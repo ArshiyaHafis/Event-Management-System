@@ -7,7 +7,7 @@
     {% for i in event %}
     <a href = "{% url 'details' id=i.id %}">
         <div class="event-card">
-        <img src="/media/images/{{i.event_name}}.png" alt="Event Image">
+        <img src="/media/{{i.event_image}}" alt="Event Image">
         <h3 class="event-name">{{i.event_name}}</h3>
         <p class="event-details">
             <span class="location">{{i.event_location}}</span>

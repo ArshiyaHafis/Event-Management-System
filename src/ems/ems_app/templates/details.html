@@ -3,13 +3,25 @@
 {% csrf_token %} 
 {% block content %}
 <dl class="details">
-    {% for event in event_set %}
-        <h2>Hello</h2>
-        <h2>{{event}}</h2>
-      <div>
-        <dt>{{ event.event_name }}</dt>
-        <dd>{{ event.event_descp }}</dd>
-      </div>
-  {% endfor %}
-  </dl>
+	{% for event in event_set %}
+	<div class="event">
+	  <dt>{{ event.event_name }}</dt>
+	  <dd>{{ event.event_descp }}</dd>
+	  <dd>{{ event.event_link }}</dd>
+	  <dd>{{ event.event_time }}</dd>
+	  <dd>{{ event.event_date }}</dd>
+	  <dd>{{ event.event_location }}</dd>
+	  {% if user.is_authenticated %}
+	  {% with name=event.event_name %}
+	  <a href="{% url 'add_dashboard' name=name id=event.id %}" class="add_button">Add to Dashboard</a>
+	  {% endwith %}
+	  {% endif %}
+	</div>
+	{% endfor %}
+  </dl>  
+  {% if event_exists %}
+	<script>
+	alert("Event already exists!");
+	</script>
+	{% endif %}
 {% endblock %}
