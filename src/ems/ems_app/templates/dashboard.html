@@ -2,14 +2,25 @@
 {% load static %}
 {% block content %}
     {% if user.is_authenticated %}
-        Hi {{ user.username }}!
-        <h5>email: {{ user.email }}</h5>
-        <a href="{% url 'add_userdetails' %}" class="add_userdetails">Add Details</a>
-                    
+        {% with profile=user.userprofile %}
+            {% if profile %}
+                <div class="event">
+                    <dt>{{profile.user_name}}</dt>
+                    <dd>{{profile.user_no}}</dd>
+                    <dd>{{user.email}}</dd>
+                    <img src="/media/{{ profile.user_pic }}" alt="pp" class="pp">
+                </div>
+            {% else %}
+                <a href="{% url 'add_userdetails' %}" class="add_userdetails">Add Details</a>
+            {% endif %}
+        {% endwith %}
+              
         {% if user.is_superuser %}
-            <h4><a class="button-link" href="{% url 'add_event' %}">Add an event</a></h4>
-            <h4><a class="button-link" href="#">Delete a project</a></h4>
-            <h4><a class="button-link" href="#">Update a project</a></h4>
+        <div class="button-function">
+            <a class="button-link" href="{% url 'add_event' %}">Add an event</a>
+            <a class="button-link" href="#">Delete a project</a>
+            <a class="button-link" href="#">Update a project</a>
+        </div>
         {% endif %}
         <div class="event-container">
             {% for user_event in user_events %}
