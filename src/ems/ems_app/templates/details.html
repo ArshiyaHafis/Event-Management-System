@@ -11,11 +11,7 @@
 	  <dd>{{ event.event_time }}</dd>
 	  <dd>{{ event.event_date }}</dd>
 	  <dd>{{ event.event_location }}</dd>
-	  {% if user.is_authenticated %}
-	  {% with name=event.event_name %}
-	  <a href="{% url 'add_dashboard' name=name id=event.id %}" class="add_button">Add to Dashboard</a>
-	  {% endwith %}
-	  {% endif %}
+	  
 	</div>
 	{% endfor %}
   </dl>  

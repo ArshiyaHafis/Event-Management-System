@@ -4,26 +4,31 @@
     {% if user.is_authenticated %}
         Hi {{ user.username }}!
         <h5>email: {{ user.email }}</h5>
+        <a href="{% url 'add_userdetails' %}" class="add_userdetails">Add Details</a>
+                    
         {% if user.is_superuser %}
             <h4><a class="button-link" href="{% url 'add_event' %}">Add an event</a></h4>
             <h4><a class="button-link" href="#">Delete a project</a></h4>
             <h4><a class="button-link" href="#">Update a project</a></h4>
         {% endif %}
         <div class="event-container">
-            <h3>hello</h3>
             {% for user_event in user_events %}
-            <a href = "{% url 'details' id=user_event.event.id %}">
+            <a href="{% url 'details' id=user_event.event.id %}">
                 <div class="event-card">
-                <img src="/media/{{user_event.event.event_image}}" alt="Event Image">
-                <h3 class="event-name">{{user_event.event.event_name}}</h3>
-                <p class="event-details">
-                    <span class="location">{{user_event.event.event_location}}</span>
-                    <span class="date">{{user_event.event.event_date}}</span>
-                    <span class="time">{{user_event.event.event_time}}</span>
-                </p>
+                    <img src="/media/{{ user_event.event.event_image }}" alt="Event Image">
+                    <h3 class="event-name">{{ user_event.event.event_name }}</h3>
+                    <p class="event-details">
+                        <span class="location">{{ user_event.event.event_location }}</span>
+                        <span class="date">{{ user_event.event.event_date }}</span>
+                        <span class="time">{{ user_event.event.event_time }}</span>
+                    </p>
+                    <div class="options">
+                        <a href="{% url 'del_dashboard' user_id=user_event.user.id event_id=user_event.event.id user_event_id=user_event.id %}" class="del_option">Delete</a>
+                        </div>
                 </div>
             </a>
-            {% endfor %}
+        {% endfor %}
+        
         </div>
     {% else %}
         <h4>Please log in to access the content.</h4>

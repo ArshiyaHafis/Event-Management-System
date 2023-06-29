@@ -21,7 +21,15 @@
 
 		{% if user.is_authenticated %}
 			<div class="user">
-				<img src = "{% static 'img/me.png' %}" alt="pp" class = "pp" />
+				{% with profile=user.userprofile %}
+					{% if profile.user_pic %}
+						<img src="/media/{{ profile.user_pic }}" alt="pp" class="pp">
+					{% else %}
+						<img src = "{% static 'img/me.png' %}" alt="pp" class = "pp" />
+					{% endif %}
+				{% endwith %}
+				
+				
 				<div>
 					<p class = "bold">{{ user.username }}</p>
 					{% if user.is_superuser %}
