@@ -24,7 +24,9 @@
         {% endif %}
         <div class="event-container">
             {% for user_event in user_events %}
-            <a href="{% url 'details' id=user_event.event.id %}">
+            <a href="#" class="show-details" data-name="{{ user_event.event.event_name }}" data-descp="{{ user_event.event.event_descp }}"
+                data-link="{{ user_event.event.event_link }}" data-time="{{ user_event.event.event_time }}" data-date="{{ user_event.event.event_date }}"
+                data-location="{{ user_event.event.event_location }}">
                 <div class="event-card">
                     <img src="/media/{{ user_event.event.event_image }}" alt="Event Image">
                     <h3 class="event-name">{{ user_event.event.event_name }}</h3>
@@ -41,8 +43,55 @@
         {% endfor %}
         
         </div>
+        <div class="popup-overlay"></div>
+
+        <div class="popup" id="eventPopup">
+            <div class="event-details">
+                <dd>Event Name: <span id="eventName"></span></dd>
+                <dd>Description: <span id="eventDescp"></span></dd>
+                <dd>Link for the event: <a href="" id="eventLink"></a></dd>
+                <dd>Time: <span id="eventTime"></span></dd>
+                <dd>Date: <span id="eventDate"></span></dd>
+                <dd>Location: <span id="eventLocation"></span></dd>
+            </div>
+        </div>
     {% else %}
         <h4>Please log in to access the content.</h4>
         <a href="{% url 'login' %}">Log in</a>
     {% endif %}
+    <script>
+        $(document).ready(function() {
+            $(".show-details").click(function(e) {
+                e.preventDefault();
+                
+                // Retrieve the event details from the clicked element's data attributes
+                var eventName = $(this).data('name');
+                var eventDescp = $(this).data('descp');
+                var eventLink = $(this).data('link');
+                var eventTime = $(this).data('time');
+                var eventDate = $(this).data('date');
+                var eventLocation = $(this).data('location');
+                
+                // Set the event details in the pop-up box
+                $("#eventName").text(eventName);
+                $("#eventDescp").text(eventDescp);
+                $("#eventLink").attr("href", eventLink).text(eventLink);
+                $("#eventTime").text(eventTime);
+                $("#eventDate").text(eventDate);
+                $("#eventLocation").text(eventLocation);
+                
+                // Show the pop-up box and overlay
+                $("#eventPopup").addClass("active");
+                $(".popup-overlay").addClass("active");
+            });
+            
+            $(".popup-overlay").click(function(e) {
+                // Hide the pop-up box and overlay when clicked outside the box
+                if ($(e.target).hasClass("popup-overlay")) {
+                    $("#eventPopup").removeClass("active");
+                    $(".popup-overlay").removeClass("active");
+                }
+            });
+        });
+    </script>
 {% endblock %}
