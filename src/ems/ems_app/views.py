@@ -151,3 +151,39 @@ def add_userdetails(request):
     else:
         form = UserPForm()
         return render(request, 'update_profile.html', {'form': form})
+
+
+def mod_event(request):
+    event_data = Event.objects.all().order_by('event_date', 'event_time')
+    print(event_data)
+    main = {'event': event_data, }
+    return render(request, 'mod_event.html', main)
+
+
+def del_event(request, name, id):
+    event_set = Event.objects.filter(
+        id=id, event_name=name)
+    if (event_set.count() == 0):
+        print("yes")
+        return render(request, 'mod_event.html', {'msg': 'not available for deletion'})
+    print(event_set)
+    event_set.delete()
+    return render(request, 'mod_event.html', {'msg': 'deleted successfully'})
+
+
+def upd_event(request, name, id):
+    event = get_object_or_404(Event, event_name=name, id=id)
+
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return render(request, 'mod_event.html', {'msg': 'updated successfully'})
+    else:
+        form = EventForm(instance=event)
+
+    context = {
+        'form': form,
+        'event': event,
+    }
+    return render(request, 'update_event.html', context)

@@ -2,25 +2,20 @@
 {% load static %}
 
 {% block content %}
-  <article>
+<article>
+  <div class="login-box">
     <h1>LOGIN</h1>
-    <!--Begin row-->
-    <div class="row">
-      <!--Begin col-->
-      <div class="column">
-        <form action="" method="post">
-          {% csrf_token %}
-          {% for i in form %}
-          <div>
-            <p>{{i.label}} : <br> {{i}} </p>
-          </div>
-          {% endfor %}
-          <input type="submit" id="button">
-        </form>
+    <form action="" method="post">
+      {% csrf_token %}
+      {% for i in form %}
+      <div>
+        <label for="{{ i.id_for_label }}">{{ i.label }}:</label>
+        {{ i }}
       </div>
-      <!--End col-->
-    </div>
-    <a href = "{% url 'register' %}">Dont have an account? Register</a>
-    <!--End row-->
-  </article>
+      {% endfor %}
+      <input type="submit" id="button" value="Login">
+    </form>
+    <a href="{% url 'register' %}">Don't have an account? Register</a>
+  </div>
+</article>
 {% endblock %}

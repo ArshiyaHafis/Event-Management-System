@@ -16,11 +16,11 @@
         {% endwith %}
               
         {% if user.is_superuser %}
-        <div class="button-function">
-            <a class="button-link" href="{% url 'add_event' %}">Add an event</a>
-            <a class="button-link" href="#">Delete a project</a>
-            <a class="button-link" href="#">Update a project</a>
-        </div>
+        <div>
+            <a class="button-function button-link" href="{% url 'add_event' %}">Add an event</a>
+            <a class="button-function button-link" href="{% url 'mod_event' %}">Delete an event</a>
+            <a class="button-function button-link" href="{% url 'mod_event' %}">Update an event</a>
+          </div>
         {% endif %}
         <div class="event-container">
             {% for user_event in user_events %}
@@ -36,7 +36,7 @@
                         <span class="time">{{ user_event.event.event_time }}</span>
                     </p>
                     <div class="options">
-                        <a href="{% url 'del_dashboard' user_id=user_event.user.id event_id=user_event.event.id user_event_id=user_event.id %}" class="del_option">Delete</a>
+                        <a href="{% url 'del_dashboard' user_id=user_event.user.id event_id=user_event.event.id user_event_id=user_event.id %}" class="del_option">Delete from Dashboard</a>
                         </div>
                 </div>
             </a>
